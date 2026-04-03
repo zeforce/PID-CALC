@@ -66,7 +66,7 @@ jobs:
             exit 1
           fi
           
-          apk_name="pid-calculator-${VERSION}.apk"
+          apk_name="dingtalk-${VERSION}.apk"
           cp "$APK_PATH" "artifacts/$apk_name"
           echo "apk_name=$apk_name" >> $GITHUB_OUTPUT
 

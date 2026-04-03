@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">PID计算器</string>
-    <string name="title_activity_main">PID计算器</string>
+    <string name="app_name">DingTalk</string>
+    <string name="title_activity_main">DingTalk</string>
     <string name="package_name">betaflight.app</string>
     <string name="custom_url_scheme">betaflight.app</string>
 </resources>

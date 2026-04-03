@@ -1,5 +1,5 @@
 {
   "appId": "betaflight.app",
-  "appName": "Betaflight App",
+  "appName": "PID计算器",
   "webDir": "src/dist"
 }

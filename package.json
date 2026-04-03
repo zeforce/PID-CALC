@@ -1,7 +1,7 @@
 {
   "name": "betaflight-app",
-  "productName": "Betaflight",
-  "displayName": "Betaflight - Configuration and management application",
+  "productName": "PID计算器",
+  "displayName": "PID计算器",
   "description": "Crossplatform configuration and management application for the Betaflight flight control firmware.",
   "version": "2026.6.0-alpha",
   "type": "module",
@@ -29,7 +29,7 @@
     "id": "main-window",
     "min_width": 1024,
     "min_height": 550,
-    "title": "Betaflight App"
+    "title": "PID计算器"
   },
   "repository": {
     "type": "git",

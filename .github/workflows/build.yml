@@ -85,7 +85,11 @@ jobs:
         run: |
           pushd android >/dev/null
           ./gradlew clean
+<<<<<<< HEAD
           ./gradlew assembleRelease
+=======
+          ./gradlew assembleRelease --stacktrace --info
+>>>>>>> de60b7e2 (buid fixex)
           popd >/dev/null
 
       - name: Set APK name
@@ -98,12 +102,22 @@ jobs:
           if [[ "$IS_DEBUG" == "true" ]]; then
             echo "--- DEBUG MODE ---"
             SHA=$(echo ${{ github.event.pull_request.head.sha }} | head -c 8)
-            apk_name=betaflight-app-$VERSION-$SHA.apk
+            apk_name=pid-calculator-$VERSION-$SHA.apk
           else
             echo "--- RELEASE MODE ---"
-            apk_name=betaflight-app-$VERSION.apk
+            apk_name=pid-calculator-$VERSION.apk
           fi
-          cp android/app/build/outputs/apk/release/app-release.apk artifacts/$apk_name
+          
+          # 自动检测 APK 路径，兼容多种文件名
+          APK_PATH=$(find android/app/build/outputs/apk/release -name "*.apk" | head -n 1)
+          if [ -z "$APK_PATH" ]; then
+            echo "Error: No APK found in android/app/build/outputs/apk/release"
+            ls -R android/app/build/outputs
+            exit 1
+          fi
+          
+          echo "Found APK at: $APK_PATH"
+          cp "$APK_PATH" "artifacts/$apk_name"
           echo "apk_name=$apk_name" >> $GITHUB_OUTPUT
 
       - name: Upload APK as Artifact

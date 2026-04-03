@@ -85,11 +85,7 @@ jobs:
         run: |
           pushd android >/dev/null
           ./gradlew clean
-<<<<<<< HEAD
-          ./gradlew assembleRelease
-=======
           ./gradlew assembleRelease --stacktrace --info
->>>>>>> de60b7e2 (buid fixex)
           popd >/dev/null
 
       - name: Set APK name

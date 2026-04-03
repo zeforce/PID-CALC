@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="package_name">betaflight.app</string>
-    <string name="custom_url_scheme">betaflight.app</string>
+    <string name="package_name">Mobile.app</string>
+    <string name="custom_url_scheme">Mobile.app</string>
 </resources>

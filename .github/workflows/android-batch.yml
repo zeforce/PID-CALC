@@ -40,7 +40,7 @@ jobs:
           while IFS= read -r name || [ -n "$name" ]; do
             # 清理名称以生成合法的包名后缀（仅保留字母数字）
             clean_id=$(echo "$name" | tr '[:upper:]' '[:lower:]' | tr -cd '[:alnum:]')
-            app_id="betaflight.app.$clean_id"
+            app_id="Mobile.app.$clean_id"
             
             echo "--------------------------------------------------------"
             echo "Building: $name ($app_id)"

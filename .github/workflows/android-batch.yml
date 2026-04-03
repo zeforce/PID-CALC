@@ -1,0 +1,72 @@
+name: 'Android Batch Build'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  batch-build:
+    name: Batch Build 100 APKs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      - name: Install node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: '.nvmrc'
+
+      - run: npm install yarn -g
+      - run: yarn install --immutable --immutable-cache --check-cache
+      - run: yarn build
+
+      - name: Generate Capacitor Config
+        run: node capacitor.config.generator.mjs
+
+      - name: Sync Capacitor Android Project
+        run: npx cap sync android
+
+      - name: Build All APKs
+        run: |
+          mkdir -p batch-apks
+          while IFS= read -r name || [ -n "$name" ]; do
+            # 清理名称以生成合法的包名后缀（仅保留字母数字）
+            clean_id=$(echo "$name" | tr '[:upper:]' '[:lower:]' | tr -cd '[:alnum:]')
+            app_id="betaflight.app.$clean_id"
+            
+            echo "--------------------------------------------------------"
+            echo "Building: $name ($app_id)"
+            echo "--------------------------------------------------------"
+            
+            pushd android >/dev/null
+            # 运行编译，注入动态名称和包名
+            ./gradlew assembleRelease -PAPP_NAME="$name" -PAPP_ID="$app_id"
+            
+            # 检测并重命名生成的 APK
+            APK_PATH=$(find app/build/outputs/apk/release -name "*.apk" | head -n 1)
+            if [ -n "$APK_PATH" ]; then
+              cp "$APK_PATH" "../batch-apks/$name.apk"
+              echo "✓ Done: batch-apks/$name.apk"
+            else
+              echo "✗ Error: Failed to find APK for $name"
+            fi
+            
+            # 清理构建缓存以减小存储空间（可选，若磁盘空间不足则开启）
+            # ./gradlew clean
+            popd >/dev/null
+          done < names.txt
+
+      - name: Upload All APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: 100-apps-batch
+          path: batch-apks/
+          retention-days: 7

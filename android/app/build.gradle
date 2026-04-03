@@ -17,14 +17,6 @@ android {
         }
     }
 
-    signingConfigs {
-        debug {
-            // 使用 Android 默认的调试库参数
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-        }
-    }
     buildTypes {
         release {
             minifyEnabled false
